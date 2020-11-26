@@ -5,6 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter movieAdapter;
     private ArrayList<Movie> movies;
     private RequestQueue requestQueue;
+    private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
+    private EditText editText;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerView);
+        editText = findViewById(R.id.editText);
+        button = findViewById(R.id.button);
         //Для улечшения производительности
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,15 +50,20 @@ public class MainActivity extends AppCompatActivity {
         movies = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(this);
 
-        getMovies();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movies.clear();
+                getMovies();
+            }
+        });
     }
 
+
     private void getMovies() {
-
-        String url = "http://www.omdbapi.com/?apikey=1113844f&s=superman";
-
+        String content = editText.getText().toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                url, null, new Response.Listener<JSONObject>() {
+                url + content, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 //Распознаем JSON объект
@@ -91,4 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
         requestQueue.add(request);
     }
+
+
 }
