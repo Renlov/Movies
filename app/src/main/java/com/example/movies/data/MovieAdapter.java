@@ -1,6 +1,7 @@
 package com.example.movies.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies.R;
+import com.example.movies.activities.MainActivity2;
 import com.example.movies.model.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -53,7 +55,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return movies.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder{
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         //Параметры для доступа к разметке
         ImageView posterImageView;
         TextView titleTextView;
@@ -61,10 +63,21 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         //Получаем доступ к разметке через itemView
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            itemView.setOnClickListener(this);
             posterImageView = itemView.findViewById(R.id.posterImageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             yearTextView = itemView.findViewById(R.id.yearTextView);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            Movie movie = movies.get(position);
+
+
+            Intent intent = new Intent(context, MainActivity2.class);
+            intent.putExtra("Name", movie.getTitle());
+            context.startActivity(intent);
         }
     }
 }

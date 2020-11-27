@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
                     movieAdapter = new MovieAdapter(MainActivity.this, movies);
                     recyclerView.setAdapter(movieAdapter);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
