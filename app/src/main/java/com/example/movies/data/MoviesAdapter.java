@@ -77,6 +77,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
             Intent intent = new Intent(context, MainActivity2.class);
             intent.putExtra("Name", movie.getTitle());
+            intent.putExtra("Year", movie.getYear());
+            intent.putExtra("image", movie.getPosterUrl());
             context.startActivity(intent);
         }
     }
