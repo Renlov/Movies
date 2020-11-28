@@ -18,12 +18,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
     private Context context;
     private ArrayList<Movie> movies;
 
-    public MovieAdapter(Context context, ArrayList<Movie> movies){
+    public MoviesAdapter(Context context, ArrayList<Movie> movies){
         this.context = context;
         this.movies = movies;
     }
@@ -46,6 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         holder.titleTextView.setText(title);
         holder.yearTextView.setText(year);
+
         Picasso.get().load(posterUrl).fit().centerInside().into(holder.posterImageView);
     }
 
@@ -73,7 +74,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public void onClick(View v) {
             int position = getAdapterPosition();
             Movie movie = movies.get(position);
-
 
             Intent intent = new Intent(context, MainActivity2.class);
             intent.putExtra("Name", movie.getTitle());

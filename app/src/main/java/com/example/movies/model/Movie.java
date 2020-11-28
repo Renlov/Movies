@@ -7,7 +7,7 @@ public class Movie {
     private String year;
     private String genre;
     private String director;
-    private String runtime;
+    private String time;
     private String plot;
 
     public String getGenre() {
@@ -26,12 +26,12 @@ public class Movie {
         this.director = director;
     }
 
-    public String getRuntime() {
-        return runtime;
+    public String getTime() {
+        return time;
     }
 
-    public void setRuntime(String runtime) {
-        this.runtime = runtime;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getPlot() {

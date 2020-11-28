@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.movies.R;
-import com.example.movies.data.MovieAdapter;
+import com.example.movies.data.MoviesAdapter;
 import com.example.movies.model.Movie;
 
 import org.json.JSONArray;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private MovieAdapter movieAdapter;
+    private MoviesAdapter moviesAdapter;
     private ArrayList<Movie> movies;
     private RequestQueue requestQueue;
     private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
@@ -87,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
                     }
 
-                    movieAdapter = new MovieAdapter(MainActivity.this, movies);
-                    recyclerView.setAdapter(movieAdapter);
+                    moviesAdapter = new MoviesAdapter(MainActivity.this, movies);
+                    recyclerView.setAdapter(moviesAdapter);
 
 
                 } catch (JSONException e) {
