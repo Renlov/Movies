@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,11 @@ public class MainActivity2 extends AppCompatActivity {
         mRequestQueue = Volley.newRequestQueue(this);
 
         getMovies();
+
+        TranslateAnimation animation = new TranslateAnimation(-200, 0, 0, 0);
+        animation.setDuration(1000);
+        animation.setFillAfter(true);
+        imageView.startAnimation(animation);
     }
 
     private void getMovies() {

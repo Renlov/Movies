@@ -16,7 +16,6 @@
         <ImageView
             android:id="@+id/posterImageView"
             android:layout_width="match_parent"
-            android:src="@mipmap/ic_launcher"
             android:layout_height="200dp"/>
 
         <TextView
@@ -52,6 +51,8 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:textColor="#000000"
+            android:textSize="20dp"
             android:id="@+id/plotTextView"
             android:text="plot"
             android:layout_width="wrap_content"

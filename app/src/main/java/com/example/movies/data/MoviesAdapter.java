@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,6 +62,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         ImageView posterImageView;
         TextView titleTextView;
         TextView yearTextView;
+
         //Получаем доступ к разметке через itemView
         public MovieViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +70,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             posterImageView = itemView.findViewById(R.id.posterImageView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             yearTextView = itemView.findViewById(R.id.yearTextView);
+            TranslateAnimation animation = new TranslateAnimation(-200, 0, 0, 0);
+            animation.setDuration(1000);
+            animation.setFillAfter(true);
+            posterImageView.startAnimation(animation);
         }
 
         @Override
