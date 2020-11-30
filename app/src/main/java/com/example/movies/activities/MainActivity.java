@@ -62,13 +62,15 @@ public class MainActivity extends AppCompatActivity {
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(event.getAction() == KeyEvent.ACTION_DOWN) {
-                    switch(event.getKeyCode()) {
-                        case KeyEvent.KEYCODE_ENTER:
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                             movies.clear();
-                            getMovies();
-                            break;
+                    try {
+                        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    } catch (Exception e) {
                     }
+                            getMovies();
+                    return true;
                 }
                 return false;
             }
