@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    searchMovie();
+                    searchMovies();
                     return true;
                 }
                 return false;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchMovie();
+                searchMovies();
             }
         });
     }
@@ -127,13 +128,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class getMoviesAsyncTask extends AsyncTask<Void, Integer, Void>{
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-        }
-
         @Override
         protected Void doInBackground(Void... voids) {
             getMovies();
@@ -142,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void searchMovie(){
+    private void searchMovies(){
         movies.clear();
 
         //Убираем клавиатуру после нажатия на кнопку
@@ -153,6 +147,5 @@ public class MainActivity extends AppCompatActivity {
         }
         new getMoviesAsyncTask().execute();
     }
-    }
-
 }
+

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -27,14 +28,13 @@ public class MainActivity2 extends AppCompatActivity {
     private final String url = "http://www.omdbapi.com/?t=";
     private final String apiKey = "&apikey=1113844f";
     private RequestQueue mRequestQueue;
-    ImageView imageView;
-    TextView titleView;
-    TextView yearView;
-    TextView genreView;
-    TextView directorView;
-    TextView timeView;
-    TextView plotView;
-
+    private ImageView imageView;
+    private TextView titleView;
+    private TextView yearView;
+    private TextView genreView;
+    private TextView directorView;
+    private TextView timeView;
+    private TextView plotView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class MainActivity2 extends AppCompatActivity {
         imageView.startAnimation(animation);
     }
 
-    private void getMovies() {
+    private void getMovie() {
         Intent intent = getIntent();
         String name = intent.getStringExtra("Name");
         String textName = name.replace(" ", "+");
@@ -105,11 +105,11 @@ public class MainActivity2 extends AppCompatActivity {
         mRequestQueue.add(request);
     }
 
-    private class getMovieAsyncTask extends AsyncTask<Void, Void, Void>{
+    private class getMovieAsyncTask extends AsyncTask<Void, Integer, Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getMovies();
+            getMovie();
             return null;
         }
     }
