@@ -3,6 +3,7 @@ package com.example.movies.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.TranslateAnimation;
@@ -50,7 +51,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         mRequestQueue = Volley.newRequestQueue(this);
 
-        getMovies();
+        new getMovieAsyncTask().execute();
 
         TranslateAnimation animation = new TranslateAnimation(-200, 0, 0, 0);
         animation.setDuration(1000);
@@ -102,6 +103,15 @@ public class MainActivity2 extends AppCompatActivity {
         });
 
         mRequestQueue.add(request);
+    }
+
+    private class getMovieAsyncTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getMovies();
+            return null;
+        }
     }
 
 }

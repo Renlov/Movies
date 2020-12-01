@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -63,32 +64,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                            movies.clear();
-                    try {
-                        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                    } catch (Exception e) {
-                    }
-                            getMovies();
+                    searchMovie();
                     return true;
                 }
                 return false;
             }
         });
 
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                movies.clear();
-
-                //Убираем клавиатуру после нажатия на кнопку
-                try {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-                } catch (Exception e) {
-                }
-                getMovies();
+                searchMovie();
             }
         });
     }
@@ -140,5 +126,33 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(request);
     }
 
+    private class getMoviesAsyncTask extends AsyncTask<Void, Integer, Void>{
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            getMovies();
+            return null;
+        }
+    }
+
+
+    private void searchMovie(){
+        movies.clear();
+
+        //Убираем клавиатуру после нажатия на кнопку
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+        }
+        new getMoviesAsyncTask().execute();
+    }
+    }
 
 }
