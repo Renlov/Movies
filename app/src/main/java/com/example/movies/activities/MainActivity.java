@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
     private EditText editText;
     private Button button;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONArray jsonArray = response.getJSONArray("Search");
 
+
                     for(int i = 0; i <jsonArray.length(); i++){
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
 
@@ -105,14 +107,16 @@ public class MainActivity extends AppCompatActivity {
 
                         movies.add(movie);
 
-                    }
+                        }
 
                     moviesAdapter = new MoviesAdapter(MainActivity.this, movies);
                     recyclerView.setAdapter(moviesAdapter);
 
 
+
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    doToast();
                 }
 
             }
@@ -138,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchMovies(){
         movies.clear();
-
         //Убираем клавиатуру после нажатия на кнопку
         try {
             InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
@@ -146,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
         }
         new getMoviesAsyncTask().execute();
+    }
+
+    private void doToast(){
+        Toast toast = Toast.makeText(MainActivity.this, "Your movie not found", Toast.LENGTH_LONG);
+        toast.show();
     }
 }
 
