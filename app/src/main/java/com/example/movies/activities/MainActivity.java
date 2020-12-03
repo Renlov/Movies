@@ -1,9 +1,16 @@
 package com.example.movies.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,7 +19,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,8 +38,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static android.view.KeyEvent.KEYCODE_ENTER;
-
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
     private EditText editText;
     private Button button;
-    private Toast toast;
+    private CardView cardViewButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +57,16 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.button);
+        cardViewButton = findViewById(R.id.cardViewButton);
+
         //Для улечшения производительности
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         movies = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(this);
 
+        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -155,5 +161,18 @@ public class MainActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(MainActivity.this, "Your movie not found", Toast.LENGTH_LONG);
         toast.show();
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+        
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            movies.remove(viewHolder.getAdapterPosition());
+            moviesAdapter.notifyDataSetChanged();
+        }
+    };
 }
 

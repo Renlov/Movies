@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies.R;
+import com.example.movies.activities.MainActivity;
 import com.example.movies.activities.MainActivity2;
 import com.example.movies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -23,6 +24,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     private Context context;
     private ArrayList<Movie> movies;
+    private MainActivity mainActivity;
 
     public MoviesAdapter(Context context, ArrayList<Movie> movies){
         this.context = context;
@@ -49,6 +51,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         holder.yearTextView.setText(year);
 
         Picasso.get().load(posterUrl).fit().centerInside().into(holder.posterImageView);
+
     }
 
     @Override
