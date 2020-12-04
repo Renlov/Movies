@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -38,6 +41,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -47,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
     private EditText editText;
     private Button button;
-    private CardView cardViewButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.button);
-        cardViewButton = findViewById(R.id.cardViewButton);
 
         //Для улечшения производительности
         recyclerView.hasFixedSize();
@@ -147,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void searchMovies(){
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        recyclerView.setItemAnimator(itemAnimator);
         movies.clear();
         //Убираем клавиатуру после нажатия на кнопку
         try {
@@ -162,12 +167,48 @@ public class MainActivity extends AppCompatActivity {
         toast.show();
     }
 
+
     ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+                              @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
-        
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+                                float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+            new RecyclerViewSwipeDecorator.Builder(MainActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.red))
+                    .addActionIcon(R.drawable.ic_baseline_delete_24)
+                    .create()
+                    .decorate();
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            
+
+          /*  final int DIRECTION_RIGHT = 1;
+            final int DIRECTION_LEFT = 0;
+
+            if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE && isCurrentlyActive){
+
+                int direction = dX > 0 ? DIRECTION_RIGHT : DIRECTION_LEFT;
+
+                switch (direction) {
+                    case DIRECTION_LEFT :
+                        View itemView = viewHolder.itemView;
+                        ColorDrawable bg = new ColorDrawable();
+
+
+                        bg.setColor(Color.RED);
+                        bg.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                        bg.draw(c);
+
+                        break;
+                }
+            }*/
+        }
+
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             movies.remove(viewHolder.getAdapterPosition());
