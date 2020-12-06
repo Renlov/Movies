@@ -53,6 +53,7 @@
             android:singleLine = "true"
             android:hint="Enter your movie"
             android:maxLength="20"
+            android:focusableInTouchMode="true"
             />
 
         <androidx.recyclerview.widget.RecyclerView

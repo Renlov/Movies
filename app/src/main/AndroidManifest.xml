@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Movies"
         android:usesCleartextTraffic="true" >
-        <activity android:name=".activities.StartActivity" >
+        <activity android:name=".activities.MainActivity" >
         </activity>
         <activity android:name=".activities.MainActivity2" />
-        <activity android:name=".activities.MainActivity" >
+        <activity android:name=".activities.StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

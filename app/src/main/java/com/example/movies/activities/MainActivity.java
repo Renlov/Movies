@@ -2,7 +2,6 @@ package com.example.movies.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -11,9 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -21,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
     private EditText editText;
     private Button button;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.button);
+        checkBox = findViewById(R.id.checkBox);
 
         //Для улечшения производительности
         recyclerView.hasFixedSize();
@@ -70,6 +69,14 @@ public class MainActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
+
+        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+
+
+        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
 
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -121,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
                     moviesAdapter = new MoviesAdapter(MainActivity.this, movies);
                     recyclerView.setAdapter(moviesAdapter);
 
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                     doToast();
@@ -162,12 +167,6 @@ public class MainActivity extends AppCompatActivity {
         new getMoviesAsyncTask().execute();
     }
 
-    private void doToast(){
-        Toast toast = Toast.makeText(MainActivity.this, "Your movie not found", Toast.LENGTH_LONG);
-        toast.show();
-    }
-
-
     ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
@@ -181,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
             new RecyclerViewSwipeDecorator.Builder(MainActivity.this, c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                     .addBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.red))
-                    .addActionIcon(R.drawable.ic_baseline_delete_24)
+                    .addActionIcon(R.drawable.ic_baseline_visibility_off_24)
                     .create()
                     .decorate();
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
@@ -213,7 +212,15 @@ public class MainActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             movies.remove(viewHolder.getAdapterPosition());
             moviesAdapter.notifyDataSetChanged();
+            Toast toast = Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT);
+            toast.show();
         }
     };
+
+    private void doToast(){
+        Toast toast = Toast.makeText(MainActivity.this, "Your movie not found", Toast.LENGTH_LONG);
+        toast.show();
+    }
+
 }
 
