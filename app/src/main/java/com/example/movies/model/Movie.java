@@ -1,7 +1,9 @@
 package com.example.movies.model;
 
+
 //Класс для содержание всех свойств объекта Movie
 public class Movie {
+
     private String title;
     private String posterUrl;
     private String year;
@@ -32,4 +34,5 @@ public class Movie {
     public void setYear(String year) {
         this.year = year;
     }
+
 }

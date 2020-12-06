@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity2 extends AppCompatActivity {
+public class OneMovieActivity extends AppCompatActivity {
 
     private final String url = "http://www.omdbapi.com/?t=";
     private final String apiKey = "&apikey=1113844f";
@@ -53,7 +53,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         new getMovieAsyncTask().execute();
 
-        TranslateAnimation animation = new TranslateAnimation(-200, 0, 0, 0);
+        TranslateAnimation animation = new TranslateAnimation(-100, 0, 0, 0);
         animation.setDuration(1000);
         animation.setFillAfter(true);
         imageView.startAnimation(animation);
@@ -64,7 +64,6 @@ public class MainActivity2 extends AppCompatActivity {
         String name = intent.getStringExtra("Name");
         String textName = name.replace(" ", "+");
         String text = url + textName + apiKey;
-        Log.d("text", text);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, text,
                  null, new Response.Listener<JSONObject>() {
             @Override

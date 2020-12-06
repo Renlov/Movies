@@ -9,15 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,35 +49,33 @@ public class MainActivity extends AppCompatActivity {
     private MoviesAdapter moviesAdapter;
     private ArrayList<Movie> movies;
     private RequestQueue requestQueue;
-    private String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
+    final String url = "http://www.omdbapi.com/?apikey=1113844f&s=";
     private EditText editText;
     private Button button;
-    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        movies = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerView);
         editText = findViewById(R.id.editText);
         button = findViewById(R.id.button);
-        checkBox = findViewById(R.id.checkBox);
 
         //Для улечшения производительности
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        movies = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(this);
 
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
 
+
+        //При переходе из StartActivity - попадаем сюда и сразу набираем текст с клавиатуры
         editText.setFocusableInTouchMode(true);
         editText.requestFocus();
-
-
-        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
 
@@ -95,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
                 searchMovies();
             }
         });
+
     }
 
-
-    private void getMovies() {
+            private void getMovies() {
         String content = editText.getText().toString();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 url + content, null, new Response.Listener<JSONObject>() {
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    doToast();
+                    doToast("Your movie not found");
                 }
 
             }
@@ -212,15 +213,33 @@ public class MainActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             movies.remove(viewHolder.getAdapterPosition());
             moviesAdapter.notifyDataSetChanged();
-            Toast toast = Toast.makeText(MainActivity.this, "Deleted", Toast.LENGTH_SHORT);
-            toast.show();
+            doToast("Deleted");
         }
     };
 
-    private void doToast(){
-        Toast toast = Toast.makeText(MainActivity.this, "Your movie not found", Toast.LENGTH_LONG);
+    private void doToast(String text){
+        Toast toast = Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
+    //Значек звезды для перехода в FavoriteActivity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.favotite_movies, menu);
+        return true;
+    }
+
+    //Переход в FavoriteActivity
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.favoriteMovies){
+            Intent openFavoriteMovies = new Intent(this, FavoriteActivity.class);
+            startActivity(openFavoriteMovies);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
