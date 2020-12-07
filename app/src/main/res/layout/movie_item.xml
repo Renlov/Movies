@@ -10,8 +10,8 @@
 
     <ImageButton
         android:id="@+id/favoriteMovies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:src="@drawable/star_true"
         android:background="#FFFFFF"
         android:layout_gravity="end"

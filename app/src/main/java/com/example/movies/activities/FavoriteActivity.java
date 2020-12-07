@@ -19,6 +19,7 @@ public class FavoriteActivity extends AppCompatActivity {
     private MoviesAdapter moviesAdapter;
     private RecyclerView recyclerView;
     private RequestQueue requestQueue;
+    private ArrayList<Movie> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,10 @@ public class FavoriteActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        requestQueue = Volley.newRequestQueue(this);
+
+
+
+
 
     }
 }

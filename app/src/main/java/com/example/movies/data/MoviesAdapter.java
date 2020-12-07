@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies.R;
-import com.example.movies.activities.MainActivity;
 import com.example.movies.activities.OneMovieActivity;
 import com.example.movies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -26,7 +25,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     private Context context;
     private ArrayList<Movie> movies;
-    public ArrayList<Movie> favoriteMovie;
+    private ArrayList<Movie> favoriteMovies;
+
+    ImageButton imageButton;
+
 
     public MoviesAdapter(Context context, ArrayList<Movie> movies){
         this.context = context;
@@ -50,8 +52,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
         holder.titleTextView.setText(title);
         holder.yearTextView.setText(year);
-
         Picasso.get().load(posterUrl).fit().centerInside().into(holder.posterImageView);
+
 
     }
 
@@ -66,7 +68,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         ImageView posterImageView;
         TextView titleTextView;
         TextView yearTextView;
-        ImageButton imageButton;
 
         //Получаем доступ к разметке через itemView
         public MovieViewHolder(@NonNull View itemView) {
@@ -82,15 +83,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             animation.setFillAfter(true);
             posterImageView.startAnimation(animation);
 
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    Movie movie = movies.get(position);
-                    favoriteMovie.add(movie);
-                }
-            });
 
+        }
+        public void doToast(String string){
+            Toast toast = Toast.makeText(context, string, Toast.LENGTH_SHORT);
+            toast.show();
 
         }
 
@@ -99,12 +96,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
         public void onClick(View v) {
             int position = getAdapterPosition();
             Movie movie = movies.get(position);
+            imageButton = itemView.findViewById(R.id.favoriteMovies);
 
             Intent intent = new Intent(context, OneMovieActivity.class);
             intent.putExtra("Name", movie.getTitle());
             intent.putExtra("Year", movie.getYear());
             intent.putExtra("image", movie.getPosterUrl());
             context.startActivity(intent);
+
         }
     }
 }
