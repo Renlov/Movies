@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.example.movies.R;
 import com.example.movies.data.MoviesAdapter;
 import com.example.movies.model.Movie;
