@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movies.R;
+import com.example.movies.activities.FavoriteActivity;
 import com.example.movies.activities.OneMovieActivity;
 import com.example.movies.model.Movie;
 import com.squareup.picasso.Picasso;
@@ -25,7 +26,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
 
     private Context context;
     private ArrayList<Movie> movies;
-    public ArrayList<String> favoriteMovies = new ArrayList<>();
+    FavoriteActivity favoriteActivity;
 
     public MoviesAdapter(Context context, ArrayList<Movie> movies){
         this.context = context;
@@ -85,7 +86,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     Movie movie = movies.get(position);
-                    favoriteMovies.add(movie.getTitle());
+                    favoriteActivity.favoriteMovies.add(movie.getTitle());
                     doToast("Add");
                 }
             });

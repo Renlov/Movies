@@ -1,36 +1,31 @@
 package com.example.movies.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.android.volley.RequestQueue;
 import com.example.movies.R;
 import com.example.movies.data.MoviesAdapter;
-import com.example.movies.model.Movie;
 
 import java.util.ArrayList;
 
+
 public class FavoriteActivity extends AppCompatActivity {
 
-    private MoviesAdapter moviesAdapter;
-    private RecyclerView recyclerView;
-    private RequestQueue requestQueue;
-    private ArrayList<Movie> movies;
+    private ListView listView;
+    public ArrayList<String> favoriteMovies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.hasFixedSize();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        listView = (ListView)findViewById(R.id.listView);
 
-
-
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.favorite_item, favoriteMovies);
+        listView.setAdapter(arrayAdapter);
 
 
     }
