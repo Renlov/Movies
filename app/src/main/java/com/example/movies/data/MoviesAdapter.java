@@ -86,8 +86,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     Movie movie = movies.get(position);
-                    favoriteActivity.favoriteMovies.add(movie.getTitle());
-                    doToast("Add");
+                    //favoriteActivity.favoriteMovies.add(movie.getTitle());
+                    ArrayMovie array = (ArrayMovie)context;
+                    ArrayList<String> global = array.getmGlobalVarValue();
+                    global.add(movie.getTitle());
+                    doToast(movie.getTitle());
                 }
             });
 
